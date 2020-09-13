@@ -1,0 +1,31 @@
+{
+  "name": "chika-bot",
+  "version": "1.0.0",
+  "description": "Bot com diversas funções para o Discord ",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "nodemon": "index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Joao-1/chika-bot.git"
+  },
+  "author": "João Vitor",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Joao-1/chika-bot/issues"
+  },
+  "homepage": "https://github.com/Joao-1/chika-bot#readme",
+  "dependencies": {
+    "@discordjs/opus": "^0.3.2",
+    "discord.js": "^12.3.1",
+    "ffmpeg": "0.0.4",
+    "ffmpeg-static": "^4.2.7",
+    "git": "^0.1.5",
+    "googleapis": "^59.0.0",
+    "nodemon": "^2.0.4",
+    "ytdl-core": "^3.2.2",
+    "ytdl-core-discord": "^1.2.1"
+  }
+}
