@@ -4,7 +4,6 @@ const keys = require('../config.json');
 const URL = require("url").URL;
 const ytdl = require('ytdl-core');
 
-
 module.exports = {
     name: 'play',
     nameHelp: '**!play <URL ou nome da música que deseja>**: Escolha uma música e curta!',
