@@ -13,7 +13,7 @@ module.exports = {
     args: true,
     usage: "Rise",
     execute(message, args){
-        //procura a musica no YT e joga a URL em um array
+        //procura a musica no YT e joga a URL em um array.
         if(message.member.voice.channel){
             searchVideo();
             function searchVideo(){
@@ -30,7 +30,7 @@ module.exports = {
             };
         };
 
-        //play - Toca a musica
+        //play - Toca a musica.
         function playMusic(a){
             const voiceChannel = message.member.voice.channel;
             voiceChannel.join().then(connection =>{
