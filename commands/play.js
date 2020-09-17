@@ -1,8 +1,9 @@
 const google = require('googleapis').google
 const Youtube = google.youtube('v3');
 const keys = require('../config.json');
-const URL = require("url").URL;
 const ytdl = require('ytdl-core');
+
+let idURL = [];
 
 module.exports = {
     name: 'play',
@@ -12,31 +13,37 @@ module.exports = {
     args: true,
     usage: "Rise",
     execute(message, args){
-        function validHttpURL(string){
-            let url;
-            try{
-                url = new URL(string);
-            }catch(err){
-                return false;
-            }
-            return url.protocol === "http:" || url.protocol === "https:";
-        };
-
-        if(validHttpURL(args) === false){
-            searchByKeyword();
-            function searchByKeyword(){
-                let results = Youtube.search.list({auth: keys.tokenYoutube, "part": ['id','snippet', ], q: args, maxResults: 25})
-                .then(function(response){console.log("Responde", response)});
+        //procura a musica no YT e joga a URL em um array
+        if(message.member.voice.channel){
+            searchVideo();
+            function searchVideo(){
+                let results = Youtube.search.list({auth: keys.tokenYoutube, "type": ["video"], "part": ['id','snippet', ], q: args, maxResults: 1})
+                .then(function(response){
+                    let idVideo = response.data.items[0].id.videoId;
+                    idURL.push(`https://www.youtube.com/watch?v=${idVideo}`);
+                    if(idURL.length === 1){
+                        playMusic(idURL);
+                    };
+                    console.log(idURL[0]);
+                    console.log("Responde", response.data.items[0].id.videoId);
+                });
             };
         };
 
-         if(message.member.voice.channel){
-             const voiceChannel = message.member.voice.channel;
+        //play - Toca a musica
+        function playMusic(a){
+            const voiceChannel = message.member.voice.channel;
             voiceChannel.join().then(connection =>{
-                const stream =  ytdl(`${args}`, {filter: 'audioonly'});
+                const stream =  ytdl(idURL[0], {filter: 'audioonly', highWaterMark: 1<<25});
                 const dispatcher = connection.play(stream);
 
-                 dispatcher.on('finish', () => voiceChannel.leave());
+                 dispatcher.on('finish', () => {
+                     idURL.shift();
+                     if(idURL.length >= 1){
+                        console.log("Estou tocando a proxima musica")
+                        playMusic(idURL);
+                     }
+                    });
              }).catch(console.error);
          }
     },
