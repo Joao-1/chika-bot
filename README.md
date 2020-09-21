@@ -1,3 +1,2 @@
 # chika-bot
-Bot para uso no Discord
-Ainda em desenvolvimento
+Bot para uso no Discord em desenvolvimento.
