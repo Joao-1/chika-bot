@@ -31,21 +31,14 @@ module.exports = {
             return message.reply('Comando não encontrado! Verifique a ortografía.');
         }
         
-        data.push(`**Name:** ${command.nameHelp}`);
+        data.push(`**Nome:** ${command.nameHelp}`);
         
-        if (command.aliases) data.push(`**Aliases:** ${command.aliases.join(', ')}`);
+        if (command.aliases) data.push(`**Outras formas de usar este comando:** ${command.aliases.join(', ')}`);
         if (command.description) data.push(`**Descrição:** ${command.description}`);
-        if (command.usage) data.push(`**Usage:** ${prefix}${command.name} ${command.usage}`);
+        if (command.usage) data.push(`**Exemplo de uso:** ${prefix}${command.name} ${command.usage}`);
         
         message.channel.send(data, { split: true });
         
 	
     }
 };
-//const textHelp = "Aqui estão todos meus comandos:";
- //      return message.author.send(textHelp, {split:true}).then(()=>{
-//		if(message.channel.type === "dm") return;
-//		message.reply("Eu mandei todos os meus comandos para você na DM!").catch(error => {
-//			console.error(`Could not send help DM to ${message.author.tag}.\n`, error);
-//			message.reply('Eu não consegui mandar os comandos para você na DM! :( Tem certeza que ela está ativada?');
-//		});
