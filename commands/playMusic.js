@@ -1,4 +1,5 @@
 const Discord = require("discord.js");
+const { videoProp } = require("./music");
 const music = require("./music");
 
 
@@ -10,17 +11,21 @@ module.exports = {
     args: true,
     usage: "Rise",
     async execute(message, args){
+        let search = args.join('-');
         if(message.member.voice.channel){
-            await music.searchVideo(args);
-            
+            console.log(search);
+            await music.searchVideo(search, message);
+
             if(music.videoProp.length === 1){
                 music.playMusic(message, music.videoProp);
-            } else{
+            }else if(music.videoProp.length === 0){
+                console.log("Busca cancelada");
+            }else{
                 music.createListMessage(message, music.videoProp);
             };
 
         }else{
-            message.send("Você precisa estar em um canal de voz para usar esse comando.")
+            message.channel.send("Você precisa estar em um canal de voz para usar esse comando.")
         };
 
     },
