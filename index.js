@@ -6,13 +6,16 @@ const {prefix, token} = require("./config.json");
 const client = new Discord.Client(); 
 client.commands = new Discord.Collection();
 
+client.on('ready', () => {
+  console.log(`O bot está online - ${client.user.tag}!`);
+});
 
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js')); //filtra todos os arquivos .js da pasta commands
 
 for (const file of commandFiles) {
 	const command = require(`./commands/${file}`);
 	client.commands.set(command.name, command);
-}
+};
 
 const cooldowns = new Discord.Collection();
 
