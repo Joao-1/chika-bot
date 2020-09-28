@@ -2,6 +2,9 @@ const Discord = require("discord.js");
 const music = require("./music");
 module.exports = {
     name: "queue",
+    aliases: ["lista"],
+    nameHelp: "**!queue!**: Retorna as músicas que estão na fila de espera.",
+    descripiton: "Uma lista com todas as músicas na fila de espera.",
     serverOnly: true,
     async execute(message, args){
         let queueList = '';
@@ -9,10 +12,10 @@ module.exports = {
         let i = 1;
 
         if(music.queue.length < 2){
-            queueList = "Nada na fila"
+            queueList = "Nada na fila."
         }else{
             while(i <= music.queue.length - 1){
-                queueList += `**${i}** - ${music.queue[i].Title} \n`
+                queueList += `\`${i}\` - ${music.queue[i].Title} \n`
                 i++;
             };    
         };
@@ -20,7 +23,7 @@ module.exports = {
         if(music.queue.length === 0){
             playingNow = "Nada, mas nunca é tarde para começar a festa!";
         }else{
-            playingNow = music.queue[0].Title;
+            playingNow = `${music.queue[0].Title}`;
         };
 
         const Embed = new Discord.MessageEmbed()

@@ -51,15 +51,16 @@ async function playMusic(message, props){
     }).catch((err) => console.log(err));
 };
 //Adiciona uma música na lista de espera caso já esteja tocando algo.
-async function createListMessage(message, props){
+async function createListMessage(message){
     console.log("Vídeo adicionada na lista");
     console.log(queue[1]);
     const exampleEmbed = new Discord.MessageEmbed()
     .setColor(`#ff6f9c`)
-    .setTitle(props[props.length - 1].Title)
-    .setThumbnail(props[props.length - 1].Thumbnail, {width: 120, height: 90})
+    .setTitle(queue[queue.length - 1].Title)
+    .setURL(queue[queue.length -1].URL)
+    .setThumbnail(queue[queue.length - 1].Thumbnail, {width: 120, height: 90})
     .addFields(
-        { name: 'Canal', value: `${props[props.length - 1].Channel}` },
+        { name: 'Canal', value: `${queue[queue.length - 1].Channel}` },
         )
     message.channel.send(exampleEmbed);
 };

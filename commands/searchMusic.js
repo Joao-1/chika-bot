@@ -17,14 +17,15 @@ module.exports = {
             const exampleEmbed = new Discord.MessageEmbed()
             .setColor(`#ff6f9c`)
             .setTitle("Lista dos resultados:")
+            .setURL('https://discord.js.org/')
             .setDescription('**Escolha o número correspondente a sua pesquisa**')
             .setThumbnail('https://i.pinimg.com/736x/5e/9a/03/5e9a033287e21ebbfe5acd1dace7a519.jpg')
             .addFields(
-                { name: '1', value: `${music.ResearchResult[0].Title}` },
-                { name: '2', value: `${music.ResearchResult[1].Title}` },
-                { name: '3', value: `${music.ResearchResult[2].Title}` },
-                { name: '4', value: `${music.ResearchResult[3].Title}` },
-                { name: '5', value: `${music.ResearchResult[4].Title}` },
+                { name: `\`${1}\``, value: `${music.ResearchResult[0].Title}` },
+                { name: `\`${2}\``, value: `${music.ResearchResult[1].Title}` },
+                { name: `\`${3}\``, value: `${music.ResearchResult[2].Title}` },
+                { name: `\`${4}\``, value: `${music.ResearchResult[3].Title}` },
+                { name: `\`${5}\``, value: `${music.ResearchResult[4].Title}` },
                 );
             await message.channel.send(exampleEmbed).then(async () =>{
                 const filter = response => {

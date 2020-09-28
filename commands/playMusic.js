@@ -3,15 +3,16 @@ const music = require("./music");
 
 module.exports = {
     name: 'play',
+    aliases: ['p', 'start', 'iniciar'],
     nameHelp: '**!play <URL ou nome da música que deseja>**: Escolha uma música e curta!',
-    description: 'Toca uma música desejada.',
+    description: 'Toca a primeira música que o bot achar em relação ao que for passado como argumento.',
     serverOnly: true,
     args: true,
-    usage: "Rise",
+    usage: "Chika Dance",
     async execute(message, args){
         let props = args.join('-');
         if(message.member.voice.channel){
-            console.log(props);
+            console.log('Pesquisa: ' + props);
             await music.searchVideo(props, message);
             if(music.ResearchResult[0]){
                 music.queue.push(music.ResearchResult[0]);
