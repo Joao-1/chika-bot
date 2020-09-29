@@ -1,7 +1,6 @@
 const fs = require('fs');
 const Discord = require("discord.js");
-const {prefix, token} = require("./config.json"); 
-
+require('dotenv/config');
 
 const client = new Discord.Client(); 
 client.commands = new Discord.Collection();
@@ -21,9 +20,9 @@ const cooldowns = new Discord.Collection();
 
 
 client.on('message', message =>{
-  if(!message.content.startsWith(prefix) || message.author.bot) return;
+  if(!message.content.startsWith(process.env.APP_PREFIX) || message.author.bot) return;
   
-  const args = message.content.slice(prefix.length).trim().split(/ +/);
+  const args = message.content.slice(process.env.APP_PREFIX.length).trim().split(/ +/);
   const commandName = args.shift().toLowerCase();
 
   const command = client.commands.get(commandName) || 
@@ -39,7 +38,7 @@ client.on('message', message =>{
         let reply = `Você tem que dar um argumento para esse comando, ${message.author}!` 
 
         if(command.usage){
-            reply += `\nUm exemplo: \`${prefix}${command.name} ${command.usage}\``;
+            reply += `\nUm exemplo: \`${process.env.APP_PREFIX}${command.name} ${command.usage}\``;
         }
 
         return message.channel.send(reply);
@@ -75,4 +74,4 @@ client.on('message', message =>{
 
 });
 
-client.login(token); 
+client.login(process.env.DISCORD_TOKEN); 
