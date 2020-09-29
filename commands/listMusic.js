@@ -23,7 +23,7 @@ module.exports = {
         if(music.queue.length === 0){
             playingNow = "Nada, mas nunca é tarde para começar a festa!";
         }else{
-            playingNow = `${music.queue[0].Title} | Requisitado por: ${music.queue[0].MemberReq[0]} `;
+            playingNow = `${music.queue[0].Title} | Requisitado por: ${music.queue[0].MemberReq[0]}`;
         };
 
         const Embed = new Discord.MessageEmbed()

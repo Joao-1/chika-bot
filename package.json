@@ -1,7 +1,7 @@
 {
   "name": "chika-bot",
   "version": "1.0.0",
-  "description": "Bot com diversas funções para o Discord ",
+  "description": "Bot com diversas funções para o Discord. ",
   "main": "index.js",
   "scripts": {
     "start": "node ./index.js",
