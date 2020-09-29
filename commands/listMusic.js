@@ -15,7 +15,7 @@ module.exports = {
             queueList = "Nada na fila."
         }else{
             while(i <= music.queue.length - 1){
-                queueList += `\`${i}\` - ${music.queue[i].Title} \n`
+                queueList += `\`${i}\` - ${music.queue[i].Title} | Requisitado por: ${music.queue[i].MemberReq[0]} \n`
                 i++;
             };    
         };
@@ -23,7 +23,7 @@ module.exports = {
         if(music.queue.length === 0){
             playingNow = "Nada, mas nunca é tarde para começar a festa!";
         }else{
-            playingNow = `${music.queue[0].Title}`;
+            playingNow = `${music.queue[0].Title} | Requisitado por: ${music.queue[0].MemberReq[0]} `;
         };
 
         const Embed = new Discord.MessageEmbed()
@@ -35,6 +35,6 @@ module.exports = {
                 {name: 'Na fila', value: queueList},
                 );
     
-        message.channel.send(Embed);
+             message.channel.send(Embed);
     },
 };
