@@ -47,8 +47,7 @@ async function playMusic(message, props){
             if(queue.length >= 1){
                 console.log("Estou tocando a proxima musica");
                 playMusic(message, queue);
-            };
-            if(queue.length === 0){
+            }else{
                 connection.disconnect();
             };
         });
