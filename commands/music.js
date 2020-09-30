@@ -1,6 +1,5 @@
 const google = require('googleapis').google
 const Youtube = google.youtube('v3');
-const keys = require('../config.json');
 const ytdl = require('ytdl-core');
 const Discord = require("discord.js");
 

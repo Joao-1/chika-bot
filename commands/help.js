@@ -1,5 +1,3 @@
-const { prefix } = require('../config.json');
-
 module.exports = {
     name: "help",
     nameHelp: '**!help**: Todos os comandos da Chika-Bot',
@@ -13,7 +11,7 @@ module.exports = {
         if(!args.length){
             data.push('Aqui está a lista de todos meus comandos:\n');
             data.push(commands.map(command => command.nameHelp).join('\n '));
-            data.push(`\nVocê pode usar \`${prefix}help [Nome do comando]\` para uma info específica do comando!`);
+            data.push(`\nVocê pode usar \`${process.env.APP_PREFIX}help [Nome do comando]\` para uma info específica do comando!`);
             
             return message.author.send(data, {split:true}).then(()=>{
                 if(message.channel.type === "dm") return;
@@ -35,7 +33,7 @@ module.exports = {
         
         if (command.aliases) data.push(`**Outras formas de usar este comando:** ${command.aliases.join(', ')}`);
         if (command.description) data.push(`**Descrição:** ${command.description}`);
-        if (command.usage) data.push(`**Exemplo de uso:** ${prefix}${command.name} ${command.usage}`);
+        if (command.usage) data.push(`**Exemplo de uso:** ${process.env.APP_PREFIX}${command.name} ${command.usage}`);
         
         message.channel.send(data, { split: true });
         
