@@ -35,7 +35,7 @@ client.on('message', message =>{
   }
 
   if (command.args && !args.length) {
-        let reply = `Você tem que dar um argumento para esse comando, ${message.author}!` 
+        let reply = `Acho melhor melhorar este argumento, ${message.author}, otaku fedido!` 
 
         if(command.usage){
             reply += `\nUm exemplo: \`${process.env.APP_PREFIX}${command.name} ${command.usage}\``;

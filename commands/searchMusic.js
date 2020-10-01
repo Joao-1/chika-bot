@@ -21,18 +21,23 @@ module.exports = {
             .setDescription('**Escolha o número correspondente a sua pesquisa**')
             .setThumbnail('https://i.pinimg.com/736x/5e/9a/03/5e9a033287e21ebbfe5acd1dace7a519.jpg')
             .addFields(
-                { name: `\`${1}\``, value: `${music.ResearchResult[0].Title}` },
-                { name: `\`${2}\``, value: `${music.ResearchResult[1].Title}` },
-                { name: `\`${3}\``, value: `${music.ResearchResult[2].Title}` },
-                { name: `\`${4}\``, value: `${music.ResearchResult[3].Title}` },
-                { name: `\`${5}\``, value: `${music.ResearchResult[4].Title}` },
-                );
+                { name: `\u200B`, value: `\`${1}\` - ${music.ResearchResult[0].Title}`},
+                { name: `\u200B`, value: `\`${2}\` - ${music.ResearchResult[1].Title}`},
+                { name: `\u200B`, value: `\`${3}\` - ${music.ResearchResult[2].Title}`},
+                { name: `\u200B`, value: `\`${4}\` - ${music.ResearchResult[3].Title}`},
+                { name: `\u200B`, value: `\`${5}\` - ${music.ResearchResult[4].Title}`},
+                )
+            .addField(`\u200B`, `Digite \`\`cancelar\`\` caso queira cancelar a pesquisa`);
             await message.channel.send(exampleEmbed).then(async () =>{
-                const filter = response => {
-                    return ['1','2','3','4','5'].some(number => number === response.content);
+                const filter = (response) => {
+                    return ['1','2','3','4','5','cancel','cancelar'].some(number => number === response.content) && response.author.id === message.author.id;
                 };
                 message.channel.awaitMessages(filter, {max: 1, time:20000, errors: ['time']}).then(collected =>{
                     let content = collected.first().content;
+                    if(content === 'cancel' || content === 'cancelar'){
+                        message.channel.send("Busca cancelada!");
+                        music.ResearchResult.length = 0;
+                    };
                     if(content === '1'){
                         music.queue.push(music.ResearchResult[0]);
                         music.ResearchResult.length = 0;
@@ -55,7 +60,7 @@ module.exports = {
                         play();
                     };
                 }).catch(collected => {
-                    message.channel.send('Tempo esgotado! Seja mais rápido.');
+                    message.channel.send('Acha que estou a sua disposição? O tempo já esgotou! Tente mais tarde, se puder hihihi');
                     music.ResearchResult.length = 0;
                 });
             });
