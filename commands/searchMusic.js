@@ -21,11 +21,11 @@ module.exports = {
             .setDescription('**Escolha o número correspondente a sua pesquisa**')
             .setThumbnail('https://i.pinimg.com/736x/5e/9a/03/5e9a033287e21ebbfe5acd1dace7a519.jpg')
             .addFields(
-                { name: `\u200B`, value: `\`${1}\` - ${music.ResearchResult[0].Title}`},
-                { name: `\u200B`, value: `\`${2}\` - ${music.ResearchResult[1].Title}`},
-                { name: `\u200B`, value: `\`${3}\` - ${music.ResearchResult[2].Title}`},
-                { name: `\u200B`, value: `\`${4}\` - ${music.ResearchResult[3].Title}`},
-                { name: `\u200B`, value: `\`${5}\` - ${music.ResearchResult[4].Title}`},
+                { name: `\u200B`, value: `\`${1}\` - [${music.ResearchResult[0].Title}](${music.ResearchResult[0].URL})`},
+                { name: `\u200B`, value: `\`${2}\` - [${music.ResearchResult[1].Title}](${music.ResearchResult[1].URL})`},
+                { name: `\u200B`, value: `\`${3}\` - [${music.ResearchResult[2].Title}](${music.ResearchResult[2].URL})`},
+                { name: `\u200B`, value: `\`${4}\` - [${music.ResearchResult[3].Title}](${music.ResearchResult[3].URL})`},
+                { name: `\u200B`, value: `\`${5}\` - [${music.ResearchResult[4].Title}](${music.ResearchResult[4].URL})`},
                 )
             .addField(`\u200B`, `Digite \`\`cancelar\`\` caso queira cancelar a pesquisa`);
             await message.channel.send(exampleEmbed).then(async () =>{

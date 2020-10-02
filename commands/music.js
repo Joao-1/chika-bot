@@ -20,7 +20,7 @@ async function searchVideo(args, message){
                 Title: response.data.items[i].snippet.title,
                 Channel:response.data.items[i].snippet.channelTitle,
                 Thumbnail: response.data.items[i].snippet.thumbnails.medium.url,
-                MemberReq: [message.author.username, message.author.id],
+                MemberReq: message.author.tag,
             });
         };
         console.log("Vídeo achado!");
@@ -37,7 +37,7 @@ async function playMusic(message, props){
     console.log("Colocando música para tocar");
     voiceChannel = message.member.voice.channel;
     voiceChannel.join().then(connection =>{
-        message.channel.send(`**Tocando: **${queue[0].Title} - Boa música`);
+        message.channel.send(`**Tocando: **\`\`${queue[0].Title}\`\` - Boa música`);
         const stream =  ytdl(queue[0].URL, {filter: 'audioonly', highWaterMark: 1<<25});
         const dispatcher = connection.play(stream);
         playing = dispatcher;
@@ -57,6 +57,7 @@ async function createListMessage(message){
     console.log("Vídeo adicionada na lista");
     console.log(queue[1]);
     const exampleEmbed = new Discord.MessageEmbed()
+    .setAuthor('Adicionado a fila', message.author.avatarURL())
     .setColor(`#ff6f9c`)
     .setTitle(queue[queue.length - 1].Title)
     .setURL(queue[queue.length -1].URL)
@@ -127,4 +128,5 @@ module.exports = {
     skipMusic: skipMusic,
     queue: queue,
     ResearchResult: ResearchResult,
+    playing: playing,
 };

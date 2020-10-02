@@ -14,15 +14,16 @@ module.exports = {
         if(message.member.voice.channel){
             console.log('Pesquisa: ' + props);
             await music.searchVideo(props, message);
-            if(music.ResearchResult[0]){
-                music.queue.push(music.ResearchResult[0]);
-                music.ResearchResult.length = 0;
+            if(music.ResearchResult.length === 0){
+                console.log("Busca cancelada");
+                return;
             };
+
+            music.queue.push(music.ResearchResult[0]);
+            music.ResearchResult.length = 0;
 
             if(music.queue.length === 1){
                 music.playMusic(message, music.queue);
-            }else if(music.queue.length === 0){
-                console.log("Busca cancelada");
             }else{
                 music.createListMessage(message, music.queue);
             };

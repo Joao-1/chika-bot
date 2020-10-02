@@ -14,7 +14,7 @@ module.exports = {
 		.setDescription('**Eu sou a secretaria Chika e estou aqui pra lhe atender. Digite !help para obter todos meus comandos em sua DM!**')
 		.setThumbnail('https://i.pinimg.com/originals/1e/ae/8e/1eae8e9753690c193232b5eb77d8849f.png')
 		.addFields(
-			{ name: 'Twitter', value: '@sneckfis' },
+			{ name: 'Twitter', value: `[@sneckfis](https://twitter.com/sneckfis)`},
 			{ name: 'Patreon', value: 'NO FUTURO', inline: true },
 		)
 		.setTimestamp()

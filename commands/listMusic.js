@@ -2,7 +2,7 @@ const Discord = require("discord.js");
 const music = require("./music");
 module.exports = {
     name: "queue",
-    aliases: ["lista"],
+    aliases: ["lista", 'fila', 'list'],
     nameHelp: "**!queue!**: Retorna as músicas que estão na fila de espera.",
     descripiton: "Uma lista com todas as músicas na fila de espera.",
     serverOnly: true,
@@ -15,7 +15,7 @@ module.exports = {
             queueList = "Nada na fila."
         }else{
             while(i <= music.queue.length - 1){
-                queueList += `\`${i}\` - ${music.queue[i].Title} | Requisitado por: ${music.queue[i].MemberReq[0]} \n`
+                queueList += `\`${i}\` - [${music.queue[i].Title}](${music.queue[0].URL}) | Requisitado por: ${music.queue[i].MemberReq} \n`
                 i++;
             };    
         };
@@ -23,7 +23,7 @@ module.exports = {
         if(music.queue.length === 0){
             playingNow = "Nada, mas nunca é tarde para começar a festa!";
         }else{
-            playingNow = `${music.queue[0].Title} | Requisitado por: ${music.queue[0].MemberReq[0]}`;
+            playingNow = `[${music.queue[0].Title}](${music.queue[0].URL}) | Requisitado por: ${music.queue[0].MemberReq}`;
         };
 
         const Embed = new Discord.MessageEmbed()
