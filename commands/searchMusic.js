@@ -3,7 +3,7 @@ const music = require("./music");
 
 module.exports = {
     name: 'search',
-    nameHelp: '**!search <URL ou nome da música que deseja>**: retorna várias opcões de músicas. Escolha uma e curta!',
+    nameHelp: '**!search <URL ou nome da música que deseja>**: retorna várias opcões de músicas. Escolha uma e curta.',
     description: 'Diferente do comando play, o search retorna 5 opções de músicas diferentes. Escolha uma dela informando o número correspondendo a música no chat.',
     serverOnly: true,
     args: true,

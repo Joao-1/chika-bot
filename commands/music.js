@@ -20,7 +20,7 @@ async function searchVideo(args, message){
                 Title: response.data.items[i].snippet.title,
                 Channel:response.data.items[i].snippet.channelTitle,
                 Thumbnail: response.data.items[i].snippet.thumbnails.medium.url,
-                MemberReq: message.author.tag,
+                MemberReq: message.author.tag
             });
         };
         console.log("Vídeo achado!");

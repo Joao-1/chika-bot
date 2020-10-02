@@ -4,7 +4,7 @@ const music = require("./music");
 module.exports = {
     name: 'play',
     aliases: ['p', 'start', 'iniciar'],
-    nameHelp: '**!play <URL ou nome da música que deseja>**: Escolha uma música e curta!',
+    nameHelp: '**!play <URL ou nome da música que deseja>**: Escolha uma música e curta.',
     description: 'Toca a primeira música que o bot achar em relação ao que for passado como argumento.',
     serverOnly: true,
     args: true,

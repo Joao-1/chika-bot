@@ -34,7 +34,6 @@ module.exports = {
                 {name: 'Tocando agora', value: playingNow},
                 {name: 'Na fila', value: queueList},
                 );
-    
              message.channel.send(Embed);
     },
 };

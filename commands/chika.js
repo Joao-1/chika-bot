@@ -4,7 +4,7 @@ const Discord = require("discord.js");
 module.exports = {
     name: "chika",
     nameHelp:"**!chika**",
-    description: "Chika!",
+    description: "Chika",
     cooldown: 5,
     execute(message){
         const exampleEmbed = new Discord.MessageEmbed()
