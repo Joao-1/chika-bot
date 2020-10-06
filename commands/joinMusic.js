@@ -7,7 +7,7 @@ module.exports = {
     execute(message, args){
         if(message.member.voice.channel){
             message.member.voice.channel.join();
-            message.send.send("Com sua licença, obrigada!")
+            message.channel.send("Com sua licença, obrigada!")
         }else{
             message.channel.send("Você precisa estar em um canal de voz para que eu consiga entrar.");
         };
