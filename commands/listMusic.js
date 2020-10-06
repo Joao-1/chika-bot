@@ -6,7 +6,7 @@ module.exports = {
     nameHelp: "**!queue!**: Retorna as músicas que estão na fila de espera.",
     descripiton: "Uma lista com todas as músicas na fila de espera.",
     serverOnly: true,
-    async execute(message, args){
+    execute(message, args){
         let queueList = '';
         let playingNow = '';
         let i = 1;

@@ -7,6 +7,7 @@ let ResearchResult = [];
 let queue = [];
 let voiceChannel;
 let playing;
+
 //Procura vídeo no Youtube e cria um objeto com URL, Título, Nome do Canal e Thumbnail.
 async function searchVideo(args, message){
     console.log("Procurando vídeo...");

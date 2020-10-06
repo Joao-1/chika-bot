@@ -69,7 +69,7 @@ client.on('message', message =>{
       command.execute(message, args);
   } catch (error) {
       console.error(error);
-      message.reply('there was an error trying to execute that command!');
+      message.reply('Algo de errado aconteceu comigo :( Por favor, se o erro persistir chame meu criador na DM: JoãoVitor#5252');
   };
 
 });
