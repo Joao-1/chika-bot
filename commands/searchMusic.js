@@ -13,6 +13,7 @@ module.exports = {
         if(message.member.voice.channel){
             console.log(argument);
             await music.searchVideo(argument, message);
+            if(music.ResearchResult.length === 0) return;
             
             const exampleEmbed = new Discord.MessageEmbed()
             .setColor(`#ff6f9c`)
