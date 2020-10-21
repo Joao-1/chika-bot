@@ -1,7 +1,7 @@
 const Discord = require("discord.js");
 const music = require("./music");
 module.exports = {
-    name: "queue",
+    name: "-",
     aliases: ["lista", 'fila', 'list'],
     nameHelp: "**!queue!**: Retorna as músicas que estão na fila de espera.",
     descripiton: "Uma lista com todas as músicas na fila de espera.",
@@ -9,13 +9,13 @@ module.exports = {
     async execute(message, args){
         let arg = parseInt(args);
         let playingNow = '';
+        let fila = "Nada na fila";
         let somethingInTheQueue = false;
         let now = 1;
+        let grupo = 0;
         let numberOfPages = 0;
-        var grupo = 0;
         let resultado = [[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]];
         await separar(music.queue, 5);
-        let fila = "Nada na fila";
 
         if(music.queue.length === 0){
             playingNow = "Nada, mas nunca é tarde para começar a festa!";
@@ -35,23 +35,10 @@ module.exports = {
             };
         };
 
-        const Embed = new Discord.MessageEmbed()
-        .setColor(`#ff6f9c`)
-        .setTitle("Lista de músicas na espera")
-        .setURL('https://discord.js.org/')
-        .addFields(
-            {name: 'Tocando agora', value: playingNow},
-            {name: 'Na fila', value: fila},
-        )
-        .setFooter(`${now}\\${grupo + 1 + numberOfPages}`)
-
-        message.channel.send(Embed);
-
         function separar(base, maximo){
             if(music.queue.length === 1) return;
             let i = 1;
             while(i < music.queue.length){
-                somethingInTheQueue = true;
                 if(i === music.queue.length){
                     return;
                 };
@@ -65,7 +52,20 @@ module.exports = {
                 };
                 i++;
                 if(i === music.queue.length && resultado[grupo].length == 0) numberOfPages--;
+                somethingInTheQueue = true;
             };
         };
+
+        const Embed = new Discord.MessageEmbed()
+        .setColor(`#ff6f9c`)
+        .setTitle("Lista de músicas na espera")
+        .setURL('https://discord.js.org/')
+        .addFields(
+            {name: 'Tocando agora', value: playingNow},
+            {name: 'Na fila', value: fila},
+        )
+        .setFooter(`${now}\\${grupo + 1 + numberOfPages}`)
+
+        message.channel.send(Embed);
     },
 };

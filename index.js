@@ -18,11 +18,24 @@ for (const file of commandFiles) {
 
 const cooldowns = new Discord.Collection();
 
+class Server{
+  constructor(serverId){
+    this.serverId = serverId;
+    this.prefix = "$";
+  };
+};
+
+let servers = {};
+function getServer(server,serverId){
+  if(!servers[server]) servers[server] = new Server(serverId);
+  return servers[server];
+};
 
 client.on('message', message =>{
-  if(!message.content.startsWith(process.env.APP_PREFIX) || message.author.bot) return;
-  
-  const args = message.content.slice(process.env.APP_PREFIX.length).trim().split(/ +/);
+  let server = getServer(message.guild.id, message.guild.id);
+  if(!message.content.startsWith(server.prefix) || message.author.bot) return;
+
+  const args = message.content.slice(server.prefix.length).trim().split(/ +/);
   const commandName = args.shift().toLowerCase();
 
   const command = client.commands.get(commandName) || 
@@ -38,35 +51,35 @@ client.on('message', message =>{
         let reply = `Acho melhor melhorar este argumento, ${message.author}, otaku fedido!` 
 
         if(command.usage){
-            reply += `\nUm exemplo: \`${process.env.APP_PREFIX}${command.name} ${command.usage}\``;
+            reply += `\nUm exemplo: \`${prefix}${command.name} ${command.usage}\``;
         }
 
         return message.channel.send(reply);
   };
   
 
-  // if(!cooldowns.has(command.name)){
-  //   cooldowns.set(command.name, new Discord.Collection());
-  // };
+  if(!cooldowns.has(command.name)){
+    cooldowns.set(command.name, new Discord.Collection());
+  };
 
-  // const now = Date.now();
-  // const timestamps = cooldowns.get(command.name);
-  // const cooldownsAmount = (command.cooldown || 3) * 1000;
+  const now = Date.now();
+  const timestamps = cooldowns.get(command.name);
+  const cooldownsAmount = (command.cooldown || 3) * 1000;
 
-  // if(timestamps.has(message.author.id)){
-  //   const experitionTime = timestamps.get(message.author.id) + cooldownsAmount;
+  if(timestamps.has(message.author.id)){
+    const experitionTime = timestamps.get(message.author.id) + cooldownsAmount;
 
-  //   if(now < experitionTime){
-  //     const timeLeft = (experitionTime - now) / 1000;
-  //     return message.reply(`Por favor, espere ${timeLeft.toFixed(1)} segundos antes de usar esse comando novamente`);
-  //   }
-  // }
+    if(now < experitionTime){
+      const timeLeft = (experitionTime - now) / 1000;
+      return message.reply(`Por favor, espere ${timeLeft.toFixed(1)} segundos antes de usar esse comando novamente`);
+    }
+  }
 
-  // timestamps.set(message.author.id, now);
-  // setTimeout(() => timestamps.delete(message.author.id), cooldownsAmount);
+  timestamps.set(message.author.id, now);
+  setTimeout(() => timestamps.delete(message.author.id), cooldownsAmount);
 
   try {
-      command.execute(message, args);
+      command.execute(message, args, server);
   } catch (error) {
       console.error(error);
       message.reply('Algo de errado aconteceu comigo :( Por favor, se o erro persistir chame meu criador na DM: JoãoVitor#5252');
@@ -74,4 +87,4 @@ client.on('message', message =>{
 
 });
 
-client.login(process.env.DISCORD_TOKEN); 
+client.login(process.env.DISCORD_TOKEN);

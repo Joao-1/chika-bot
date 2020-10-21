@@ -2,7 +2,7 @@ const Discord = require("discord.js");
 const music = require("./music");
 
 module.exports = {
-    name: 'play',
+    name: '-',
     aliases: ['p', 'start', 'iniciar'],
     nameHelp: '**!play <URL ou nome da música que deseja>**: Escolha uma música e curta.',
     description: 'Toca a primeira música que o bot achar em relação ao que for passado como argumento.',
@@ -29,7 +29,7 @@ module.exports = {
             };
 
         }else{
-            message.channel.send("Você precisa estar em um canal de voz para usar esse comando.")
+            message.channel.send("Você precisa estar em um canal de voz para usar esse comando.");
         };
     },
 };

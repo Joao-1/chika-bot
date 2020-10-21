@@ -1,10 +1,10 @@
-const Discord = require("discord.js");
-const music = require("./music");
-
 module.exports = {
-    name: 'join',
+    name: 'entrar',
+    aliases:['e'],
+    nameHelp: '**!entrar**: entra no canal de voz que o membro que solicitou se encontra.',
+    description: 'Entra no canal de voz que o membro que solicitou se encontra.',
     serveOnly: true,
-    execute(message, args){
+    execute(message){
         if(message.member.voice.channel){
             message.member.voice.channel.join();
             message.channel.send("Com sua licença, obrigada!")

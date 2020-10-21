@@ -2,11 +2,11 @@ const Discord = require("discord.js");
 const music = require("./music");
 
 module.exports = {
-    name: 'skip',
+    name: '-',
     serveOnly: true,
-    execute(message, args){
+    execute(message){
         if(message.member.voice.channel){
-            music.skipMusic(message);
+            music.resumeMusic(message);
         };
     },
 };

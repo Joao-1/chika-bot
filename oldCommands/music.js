@@ -104,7 +104,7 @@ async function endMusic(message){
         message.channel.send("Byeee!");
     }else{
         message.channel.send("Preciso estar tocando algo para conseguir parar de tocar algo, não? Hms");
-    }
+    };
 };
 
 async function skipMusic(message){
@@ -115,8 +115,8 @@ async function skipMusic(message){
             message.channel.send("Não tenho mais nenhuma música na fila para tocar.");
         }      
     }else{
-        message.channel.send("Preciso estar tocando algo para conseguir parar de tocar algo, não? Hms");
-    }
+        message.channel.send("Preciso estar tocando algo para conseguir pular de tocar algo, não? Hms");
+    };
 };
 
 module.exports = {

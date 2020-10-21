@@ -1,6 +1,5 @@
 const Discord = require("discord.js");
 
-
 module.exports = {
     name: "chika",
     nameHelp:"**!chika**",
@@ -17,7 +16,6 @@ module.exports = {
 			{ name: 'Twitter', value: `[@sneckfis](https://twitter.com/sneckfis)`},
 			{ name: 'Patreon', value: 'NO FUTURO', inline: true },
 		)
-		.setTimestamp()
 		.setFooter('Desenvolvido por JoãoVitor#5252', 'https://i.pinimg.com/originals/29/8c/56/298c565e1d66f648108cc2650a51d386.jpg');
 
 		message.channel.send(exampleEmbed);

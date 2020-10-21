@@ -2,7 +2,7 @@ const Discord = require("discord.js");
 const music = require("./music");
 
 module.exports = {
-    name: 'search',
+    name: '-',
     nameHelp: '**!search <URL ou nome da música que deseja>**: retorna várias opcões de músicas. Escolha uma e curta.',
     description: 'Diferente do comando play, o search retorna 5 opções de músicas diferentes. Escolha uma dela informando o número correspondendo a música no chat.',
     serverOnly: true,
@@ -30,7 +30,7 @@ module.exports = {
                 )
             .addField(`\u200B`, `Digite \`\`cancelar\`\` caso queira cancelar a pesquisa`);
             await message.channel.send(exampleEmbed).then(async () =>{
-                const filter = (response) => {
+                const filter = (response) =>{
                     return ['1','2','3','4','5','cancel','cancelar'].some(number => number === response.content) && response.author.id === message.author.id;
                 };
                 message.channel.awaitMessages(filter, {max: 1, time:20000, errors: ['time']}).then(collected =>{
@@ -81,57 +81,3 @@ module.exports = {
 
     },
 };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            //     await embedMessage.react(`1️⃣`);
-            //     await embedMessage.react(`2️⃣`);
-            //     await embedMessage.react(`3️⃣`);
-            //     await embedMessage.react(`4️⃣`);
-            //     await embedMessage.react(`5️⃣`);
-            //     const filter = (reaction, user)=>{
-            //         return [`1️⃣`,`2️⃣`,`3️⃣`,`4️⃣`,`5️⃣`].includes(reaction.emoji.name)
-            //         && user.id === message.author.id;
-            //     };
-            //     let collector = embedMessage.createReactionCollector(filter, {time: 20000});
-            //     collector.on(`collect`, async(reaction, reactionCollector)=>{
-                // if(reaction.emoji.name === `1️⃣`){
-                //     music.queue.push(music.ResearchResult[0]);
-                //     music.ResearchResult.length = 0;
-                //     play();
-                // }else if(reaction.emoji.name === `2️⃣`){
-                //     music.queue.push(music.ResearchResult[1]);
-                //     music.ResearchResult.length = 0;
-                //     play();
-                // }else if(reaction.emoji.name === `3️⃣`){
-                //     music.queue.push(music.ResearchResult[2]);
-                //     music.ResearchResult.length = 0;
-                //     play();
-                // }else if(reaction.emoji.name === `4️⃣`){
-                //     music.queue.push(music.ResearchResult[3]);
-                //     music.ResearchResult.length = 0;
-                //     play();
-                // }else if(reaction.emoji.name === `5️⃣`){
-                //     music.queue.push(music.ResearchResult[4]);
-                //     music.ResearchResult.length = 0;
-                //     play();
-                // };
-            //     });
