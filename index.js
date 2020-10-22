@@ -26,14 +26,15 @@ class Server{
 };
 
 let servers = {};
-function getServer(server,serverId){
-  if(!servers[server]) servers[server] = new Server(serverId);
-  return servers[server];
+function getServer(serverId){
+  if(!servers[serverId]) servers[serverId] = new Server(serverId);
+  return servers[serverId];
 };
 
 client.on('message', message =>{
-  let server = getServer(message.guild.id, message.guild.id);
-  if(!message.content.startsWith(server.prefix) || message.author.bot) return;
+  if(message.author.bot || message.channel.type === 'dm') return;
+  let server = getServer(message.guild.id);
+  if(!message.content.startsWith(server.prefix)) return;
 
   const args = message.content.slice(server.prefix.length).trim().split(/ +/);
   const commandName = args.shift().toLowerCase();
