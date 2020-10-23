@@ -36,7 +36,7 @@ client.on('message', message =>{
   let prefix;
   try{
   let server = getServer(message.guild.id);
-  prefix = server.prefix;
+    prefix = server.prefix;
   }catch{
     prefix = '&';
   };
@@ -86,7 +86,7 @@ client.on('message', message =>{
   setTimeout(() => timestamps.delete(message.author.id), cooldownsAmount);
 
   try{
-      command.execute(message, args);
+      command.execute(message,args,server);
   }catch(error){
       console.error(error);
       message.reply('Algo de errado aconteceu comigo :( Por favor, se o erro persistir chame meu criador na DM: JoãoVitor#5252');
