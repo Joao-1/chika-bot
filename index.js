@@ -34,11 +34,12 @@ function getServer(serverId){
 client.on('message', message =>{
   if(message.author.bot) return;
   let prefix;
+  let server;
   try{
-  let server = getServer(message.guild.id);
+    server = getServer(message.guild.id);
     prefix = server.prefix;
   }catch{
-    prefix = '&';
+    if(message.channel.type === 'dm') prefix = '&';
   };
   if(!message.content.startsWith(prefix)) return;
 
