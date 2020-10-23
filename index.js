@@ -21,7 +21,7 @@ const cooldowns = new Discord.Collection();
 class Server{
   constructor(serverId){
     this.serverId = serverId;
-    this.prefix = "$";
+    this.prefix = "&";
   };
 };
 
@@ -32,11 +32,17 @@ function getServer(serverId){
 };
 
 client.on('message', message =>{
-  if(message.author.bot || message.channel.type === 'dm') return;
+  if(message.author.bot) return;
+  let prefix;
+  try{
   let server = getServer(message.guild.id);
-  if(!message.content.startsWith(server.prefix)) return;
+  prefix = server.prefix;
+  }catch{
+    prefix = '&';
+  };
+  if(!message.content.startsWith(prefix)) return;
 
-  const args = message.content.slice(server.prefix.length).trim().split(/ +/);
+  const args = message.content.slice(prefix.length).trim().split(/ +/);
   const commandName = args.shift().toLowerCase();
 
   const command = client.commands.get(commandName) || 
@@ -79,9 +85,9 @@ client.on('message', message =>{
   timestamps.set(message.author.id, now);
   setTimeout(() => timestamps.delete(message.author.id), cooldownsAmount);
 
-  try {
-      command.execute(message, args, server);
-  } catch (error) {
+  try{
+      command.execute(message, args);
+  }catch(error){
       console.error(error);
       message.reply('Algo de errado aconteceu comigo :( Por favor, se o erro persistir chame meu criador na DM: JoãoVitor#5252');
   };

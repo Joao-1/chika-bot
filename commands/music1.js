@@ -99,7 +99,7 @@ class Player{
             };
         };
 
-        const Embed = new Discord.MessageEmbed()
+        const embed = new Discord.MessageEmbed()
         .setColor(`#ff6f9c`)
         .setTitle("Lista de músicas na espera")
         .setURL('https://discord.js.org/')
@@ -109,7 +109,7 @@ class Player{
         )
         .setFooter(`${this.now}\\${this.grup + 1 + this.numberOfPages}`);
     
-        message.channel.send(Embed);
+        message.channel.send(embed);
     };
 };
 
@@ -160,7 +160,7 @@ function createListMessage(message, queue){
 };
 
 async function searchCommand(player){
-    let Embed = new Discord.MessageEmbed()
+    const Embed = new Discord.MessageEmbed()
     .setColor(`#ff6f9c`)
     .setTitle("Lista dos resultados:")
     .setURL('https://discord.js.org/')

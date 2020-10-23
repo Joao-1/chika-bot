@@ -2,9 +2,9 @@ const Discord = require("discord.js");
 
 module.exports = {
     name: "chika",
-    nameHelp:"**!chika**",
     description: "Chika",
-    cooldown: 5,
+	cooldown: 5,
+	usage: '&chika',
     execute(message){
         const exampleEmbed = new Discord.MessageEmbed()
 		.setColor('#ff6f9c')

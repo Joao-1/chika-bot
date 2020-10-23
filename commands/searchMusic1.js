@@ -3,11 +3,10 @@ const music = require("./music1");
 module.exports = {
     name: 'search',
     aliases:['procurar'],
-    nameHelp: '**!search <URL ou nome da música que deseja>**: retorna várias opcões de músicas. Escolha uma e curta.',
     description: 'Diferente do comando play, o search retorna 5 opções de músicas diferentes. Escolha uma dela informando o número correspondendo a música no chat.',
     serverOnly: true,
     args: true,
-    usage: "Chika Dance",
+    usage: "&procurar <nome da música que deseja procurar>",
     async execute(message,args){
         if(message.member.voice.channel){
             let props = args.join('-');

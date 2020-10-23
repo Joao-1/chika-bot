@@ -1,9 +1,9 @@
 module.exports = {
     name: 'entrar',
-    aliases:['e'],
-    nameHelp: '**!entrar**: entra no canal de voz que o membro que solicitou se encontra.',
+    aliases:['e','join'],
     description: 'Entra no canal de voz que o membro que solicitou se encontra.',
     serveOnly: true,
+    usage: '&entrar',
     execute(message){
         if(message.member.voice.channel){
             message.member.voice.channel.join();

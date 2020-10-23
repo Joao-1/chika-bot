@@ -1,9 +1,10 @@
 module.exports = {
-	name: 'prune',
-	nameHelp: '**!prune <número de mensagens a apagar>**: Apaga uma certa quantia de mensagens (mínimo 1, máximo 99)',
-	description: 'Use esse comando para apagar várias mensagens!\n O mínimo é 1 e o máximo 2',
+	name: 'apagar',
+	aliases: ['prune'],
+	description: 'Use esse comando para apagar várias mensagens!\n O mínimo é 1 e o máximo 99',
 	serverOnly: true,
 	cooldown: 5,
+	usage: '&apagar <número de mensagens entre 1 e 99 que deseja apagar>',
 	execute(message, args) {
 		const amount = parseInt(args[0]) + 1;
 

@@ -2,12 +2,11 @@ const music = require("./music1");
 
 module.exports = {
     name: 'play',
-    aliases: ['p','start','iniciar'],
-    nameHelp: '**!play <URL ou nome da música que deseja>**: Escolha uma música e curta.',
+    aliases: ['p','start','iniciar','tocar'],
     description: 'Toca a primeira música que o bot achar em relação ao que for passado como argumento.',
     serverOnly: true,
     args: true,
-    usage: "Chika Dance",
+    usage: "&tocar <nome ou link de alguma música>",
     async execute(message, args){
         if(message.member.voice.channel){
             let props = args.join('-');
