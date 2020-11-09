@@ -49,13 +49,13 @@ client.on('message', message =>{
   const command = client.commands.get(commandName) || 
   client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
 
-  if (!command) return;
+  if(!command) return;
 
-  if (command.serverOnly && message.channel.type === "dm"){
+  if(command.serverOnly && message.channel.type === "dm"){
     return message.reply("Eu não consigo executar esse comando na DM :(");
   }
 
-  if (command.args && !args.length) {
+  if(command.args && !args.length){
         let reply = `Acho melhor melhorar este argumento, ${message.author}, otaku fedido!` 
 
         if(command.usage){
