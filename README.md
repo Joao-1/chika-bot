@@ -1,4 +1,4 @@
-# chika-bot
+# Chika-bot
 Bot para uso no Discord em desenvolvimento.
 
 Mega atualização(#1)
