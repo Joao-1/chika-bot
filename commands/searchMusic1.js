@@ -12,7 +12,7 @@ module.exports = {
             let props = args.join('-');
             console.log('Pesquisa: ' + props);
             let player = music.getPlayer(message.guild.id);
-            await music.searchVideo(props, message, player);
+            await music.searchVideo(props, message, player, 5);
             if(player.ResearchResult.length === 0) return;
 
             music.searchCommand(player).then(Embed=>{

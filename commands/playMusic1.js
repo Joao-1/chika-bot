@@ -12,10 +12,10 @@ module.exports = {
             let props = args.join('-');
             console.log('Pesquisa: ' + props);
             let player = music.getPlayer(message.guild.id);
-            await music.searchVideo(props, message, player);
+            await music.searchVideo(props, message, player, 1);
             if(player.ResearchResult.length === 0) return;
 
-            player.addQueue(player.ResearchResult[0], player);
+            player.addQueue(player.ResearchResult[0]);
             player.ResearchResult.length = 0;
             if(player.queue.length === 1){
                 player.playMusic(message, player.queue);

@@ -8,23 +8,24 @@ class Player{
         this.ResearchResult = [];
         this.queue = [];
     };
-    researchVideos(URL,Title,Channel,Thumbnail,MemberReq){
+    researchVideos(URL,Title,Channel,Thumbnail,Duration,MemberReq){
         this.ResearchResult.push({               
             URL,
             Title, 
             Channel,
             Thumbnail,
+            Duration,
             MemberReq,
         });
     };
     addQueue(queue){
         this.queue.push(queue);
     };
-    playMusic(message, queue){
+    playMusic(message,queue){
         console.log("Colocando música para tocar");
         var voiceChannel = message.member.voice.channel;
         voiceChannel.join().then(connection =>{
-            message.channel.send(`**Tocando: **\`\`${queue[0].Title}\`\` - Boa música`);
+            message.channel.send(`**Tocando: **\`\`${queue[0].Title}\`\` ${queue[0].Duration} - Boa música`);
             var stream =  ytdl(queue[0].URL, {filter: 'audioonly', highWaterMark: 1<<25});
             var dispatcher = connection.play(stream);
             this.playing = dispatcher;
@@ -83,7 +84,7 @@ class Player{
         separateSongs(player,5);
         
         if(this.queue.length >= 1){
-            playingNow = `[${this.queue[0].Title}](${this.queue[0].URL}) | Requisitado por: ${this.queue[0].MemberReq}`;
+            playingNow = `[${this.queue[0].Title}](${this.queue[0].URL}) - ${player.queue[0].Duration} | Requisitado por: ${this.queue[0].MemberReq}`;
         };
 
         if(this.somethingInTheQueue === true){
@@ -120,22 +121,30 @@ function getPlayer(server){
     return players[server];
 };
 
-async function searchVideo(args, message, player){
+async function searchVideo(args, message, player,max){
     console.log("Procurando vídeo...");
-    let results = await Youtube.search.list({auth: process.env.GOOGLE_TOKEN, "type": ["video"], "part": ['id', 'snippet'], q: args, maxResults: 5})
-    .then(function(response){
-    if(response.data.items[0]){
-        for(let i = 0; i <= 4; i++){
-            let idVideo = response.data.items[i].id.videoId;
-            player.researchVideos(
-                `https://www.youtube.com/watch?v=${idVideo}`,
-                response.data.items[i].snippet.title,
-                response.data.items[i].snippet.channelTitle,
-                response.data.items[i].snippet.thumbnails.medium.url,
-                message.author.tag
-            );
-        };
-        console.log("Vídeo achado!");
+    let results = await Youtube.search.list({auth: process.env.GOOGLE_TOKEN, "type": ["video"], "part": ['id', 'snippet'], q: args, maxResults: max})
+    .then(async function(response){
+        if(response.data.items[0]){
+            for(let i = 0; i <= max - 1; i++){
+                let idVideo = response.data.items[i].id.videoId;
+
+                let details = await ytdl.getInfo(`https://www.youtube.com/watch?v=${idVideo}`,'requestOptions');
+                
+                let minute = (details.videoDetails.lengthSeconds/60);
+                let secunds = (details.videoDetails.lengthSeconds%60);
+                let duration = `${parseInt(minute)}:${secunds}`
+
+                player.researchVideos(
+                    `https://www.youtube.com/watch?v=${idVideo}`,
+                    response.data.items[i].snippet.title,
+                    response.data.items[i].snippet.channelTitle,
+                    response.data.items[i].snippet.thumbnails.medium.url,
+                    duration,
+                    message.author.tag,
+                );
+            };
+            console.log("Vídeo achado!");
     }else{
         message.channel.send("Não encontrei sua busca :c Verifique a ortografía.");
         console.log("Vídeo não encontrado");
@@ -154,7 +163,8 @@ function createListMessage(message, queue){
     .setURL(queue[queue.length -1].URL)
     .setThumbnail(queue[queue.length - 1].Thumbnail, {width: 120, height: 90})
     .addFields(
-        { name: 'Canal', value: `${queue[queue.length - 1].Channel}` },
+        {name: 'Canal', value: `${queue[queue.length - 1].Channel}`},
+        {name: 'Duração', value: `${queue[queue.length - 1].Duration}`}
         )
     message.channel.send(Embed);
 };
@@ -189,7 +199,7 @@ function separateSongs(player, maximo){
             return;
         };
       
-        player.result[player.grup].push(`\`${i}\` - [${player.queue[i].Title}](${player.queue[i].URL}) | Requisitado por: ${player.queue[i].MemberReq} \n`);
+        player.result[player.grup].push(`\`${i}\` - [${player.queue[i].Title}](${player.queue[i].URL}) - ${player.queue[i].Duration} | Requisitado por: ${player.queue[i].MemberReq} \n`);
         if(i % maximo === 0){
             player.grup++;
         };
@@ -197,6 +207,7 @@ function separateSongs(player, maximo){
         if(i === player.queue.length && player.result[player.grup] == undefined) player.numberOfPages--;
     };
 };
+
 
 module.exports = {
     Player,
