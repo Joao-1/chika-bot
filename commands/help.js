@@ -48,36 +48,3 @@ module.exports = {
         };
     },
 };
-
-// const data = [];
-// const {commands} = message.client;
-
-// if(!args.length){
-//     data.push('Aqui está a lista de todos meus comandos:\n');
-//     data.push(commands.map(command => command.nameHelp).join('\n '));
-//     data.push(`\nVocê pode usar \`${process.env.APP_PREFIX}help [Nome do comando]\` para uma info específica do comando!`);
-    
-//     return message.author.send(data, {split:true}).then(()=>{
-//         if(message.channel.type === "dm") return;
-//         message.reply("Eu mandei todos os meus comandos para você na DM!").catch(error => {
-//             console.error(`Could not send help DM to ${message.author.tag}.\n`, error);
-//             message.reply('Eu não consegui mandar os comandos para você na DM! :( Tem certeza que ela está ativada?');
-//         });
-//     })
-// }
-
-// const name = args[0].toLowerCase();
-// const command = commands.get(name) || commands.find(c => c.aliases && c.aliases.includes(name));
-
-// if (!command) {
-//     return message.reply('Comando não encontrado! Verifique a ortografía.');
-// }
-
-// data.push(`**Nome:** ${command.nameHelp}`);
-
-// if (command.aliases) data.push(`**Outras formas de usar este comando:** ${command.aliases.join(', ')}`);
-// if (command.description) data.push(`**Descrição:** ${command.description}`);
-// if (command.usage) data.push(`**Exemplo de uso:** ${process.env.APP_PREFIX}${command.name} ${command.usage}`);
-
-// message.channel.send(data, { split: true });
-

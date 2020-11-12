@@ -2,7 +2,7 @@ const music = require("./music1");
 
 module.exports = {
     name: 'limpar',
-    aliases:['l'],
+    aliases:['l','clean'],
     description: 'Limpa a fila de música do servidor.',
     serveOnly: true,
     usage: '&limpar',

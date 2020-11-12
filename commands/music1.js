@@ -2,19 +2,21 @@ const google = require('googleapis').google
 const Youtube = google.youtube('v3');
 const ytdl = require('ytdl-core');
 const Discord = require("discord.js");
+const yts = require( 'yt-search' );
 
 class Player{
     constructor() {
         this.ResearchResult = [];
         this.queue = [];
     };
-    researchVideos(URL,Title,Channel,Thumbnail,Duration,MemberReq){
+    researchVideos(URL,Title,Channel,Thumbnail,Duration,views,MemberReq){
         this.ResearchResult.push({               
             URL,
             Title, 
             Channel,
             Thumbnail,
             Duration,
+            views,
             MemberReq,
         });
     };
@@ -25,7 +27,7 @@ class Player{
         console.log("Colocando música para tocar");
         var voiceChannel = message.member.voice.channel;
         voiceChannel.join().then(connection =>{
-            message.channel.send(`**Tocando: **\`\`${queue[0].Title}\`\` ${queue[0].Duration} - Boa música`);
+            message.channel.send(`Achei \`\`${queue[0].Title} (${queue[0].Duration})\`\` - Som na Caixa`);
             var stream =  ytdl(queue[0].URL, {filter: 'audioonly', highWaterMark: 1<<25});
             var dispatcher = connection.play(stream);
             this.playing = dispatcher;
@@ -74,7 +76,7 @@ class Player{
     };
     listSongs(message,arg,player){
         let args = parseInt(arg);
-        let playingNow = 'Nada, mas nunca é tarde para começar a festa!';
+        let playingNow = 'Não estou tocando nada no momento!';
         let inQueue = "Nada na fila";
         this.somethingInTheQueue = false;
         this.numberOfPages = 0;
@@ -123,35 +125,27 @@ function getPlayer(server){
 
 async function searchVideo(args, message, player,max){
     console.log("Procurando vídeo...");
-    let results = await Youtube.search.list({auth: process.env.GOOGLE_TOKEN, "type": ["video"], "part": ['id', 'snippet'], q: args, maxResults: max})
-    .then(async function(response){
-        if(response.data.items[0]){
-            for(let i = 0; i <= max - 1; i++){
-                let idVideo = response.data.items[i].id.videoId;
-
-                let details = await ytdl.getInfo(`https://www.youtube.com/watch?v=${idVideo}`,'requestOptions');
-                
-                let minute = (details.videoDetails.lengthSeconds/60);
-                let secunds = (details.videoDetails.lengthSeconds%60);
-                let duration = `${parseInt(minute)}:${secunds}`
-
-                player.researchVideos(
-                    `https://www.youtube.com/watch?v=${idVideo}`,
-                    response.data.items[i].snippet.title,
-                    response.data.items[i].snippet.channelTitle,
-                    response.data.items[i].snippet.thumbnails.medium.url,
-                    duration,
-                    message.author.tag,
-                );
-            };
-            console.log("Vídeo achado!");
+    const search = await yts(args);
+    const result = search.videos.slice(0,max);
+    if(result){
+        for(let i = 0; i <= max - 1; i++){
+            player.researchVideos(
+                result[i].url,
+                result[i].title,
+                result[i].author.name,
+                result[i].thumbnail,
+                result[i].timestamp,
+                result[i].views,
+                message.author.tag,
+            );
+        };
+        console.log("Vídeo achado!");
     }else{
         message.channel.send("Não encontrei sua busca :c Verifique a ortografía.");
         console.log("Vídeo não encontrado");
     }; 
-    }).catch((err)=>{
-        console.log(err); 
-    });    
+
+
 };
 
 function createListMessage(message, queue){
@@ -163,8 +157,10 @@ function createListMessage(message, queue){
     .setURL(queue[queue.length -1].URL)
     .setThumbnail(queue[queue.length - 1].Thumbnail, {width: 120, height: 90})
     .addFields(
-        {name: 'Canal', value: `${queue[queue.length - 1].Channel}`},
-        {name: 'Duração', value: `${queue[queue.length - 1].Duration}`}
+        {name: 'Canal', value: `${queue[queue.length - 1].Channel}`, inline: true},
+        {name: 'Duração', value: `${queue[queue.length - 1].Duration}`, inline: true},
+        {name: 'Visualizações', value: `${(queue[queue.length - 1].views).toLocaleString('pt-br')}`, inline: true},
+        {name: 'Posição na fila de espera', value: `${queue.length - 1}`}
         )
     message.channel.send(Embed);
 };
@@ -177,11 +173,11 @@ async function searchCommand(player){
     .setDescription('**Escolha o número correspondente a sua pesquisa**')
     .setThumbnail('https://i.pinimg.com/736x/5e/9a/03/5e9a033287e21ebbfe5acd1dace7a519.jpg')
     .addFields(
-        { name: `\u200B`, value: `\`${1}\` - [${player.ResearchResult[0].Title}](${player.ResearchResult[0].URL})`},
-        { name: `\u200B`, value: `\`${2}\` - [${player.ResearchResult[1].Title}](${player.ResearchResult[1].URL})`},
-        { name: `\u200B`, value: `\`${3}\` - [${player.ResearchResult[2].Title}](${player.ResearchResult[2].URL})`},
-        { name: `\u200B`, value: `\`${4}\` - [${player.ResearchResult[3].Title}](${player.ResearchResult[3].URL})`},
-        { name: `\u200B`, value: `\`${5}\` - [${player.ResearchResult[4].Title}](${player.ResearchResult[4].URL})`},
+        { name: `\u200B`, value: `\`${1}\` - [${player.ResearchResult[0].Title}](${player.ResearchResult[0].URL}) - (${player.ResearchResult[0].Duration})`},
+        { name: `\u200B`, value: `\`${2}\` - [${player.ResearchResult[1].Title}](${player.ResearchResult[1].URL}) - (${player.ResearchResult[1].Duration})`},
+        { name: `\u200B`, value: `\`${3}\` - [${player.ResearchResult[2].Title}](${player.ResearchResult[2].URL}) - (${player.ResearchResult[2].Duration})`},
+        { name: `\u200B`, value: `\`${4}\` - [${player.ResearchResult[3].Title}](${player.ResearchResult[3].URL}) - (${player.ResearchResult[3].Duration})`},
+        { name: `\u200B`, value: `\`${5}\` - [${player.ResearchResult[4].Title}](${player.ResearchResult[4].URL}) - (${player.ResearchResult[4].Duration})`},
         )
     .addField(`\u200B`, `Digite \`\`cancelar\`\` caso queira cancelar a pesquisa`);
     return Embed;

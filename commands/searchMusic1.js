@@ -25,7 +25,6 @@ module.exports = {
                         if(content === 'cancel' || content === 'cancelar'){
                             message.channel.send("Busca cancelada!");
                             player.ResearchResult.length = 0;
-                            play();
                         };
                         if(content === '1'){
                             player.queue.push(player.ResearchResult[0]);
@@ -48,7 +47,8 @@ module.exports = {
                             player.ResearchResult.length = 0;
                             play();;
                         };
-                    }).catch(()=>{
+                    }).catch((err)=>{
+                        console.log(err);
                         message.channel.send('Acha que estou a sua disposição? O tempo já esgotou! Tente mais tarde, se puder hihihi');
                         player.ResearchResult.length = 0;
                     });
@@ -57,11 +57,11 @@ module.exports = {
             
             function play(){
                 if(player.queue.length === 1){
-                    player.playMusic(message, player.queue);
+                    player.playMusic(message,player.queue);
                 }else if(player.queue.length === 0){
                     console.log("Busca cancelada");
                 }else{
-                    player.createListMessage(message, player.queue);
+                    music.createListMessage(message,player.queue);
                 };
             };
         }else{

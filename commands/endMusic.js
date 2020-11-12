@@ -3,7 +3,7 @@ const music = require("./music1");
 
 module.exports = {
     name: 'terminar',
-    aliases: ['t'],
+    aliases: ['t','end','disconnect','sair','leave'],
     description: 'Deixa o canal de voz e limpa a fila de músicas do servidor',
     serveOnly: true,
     usage: '&terminar',

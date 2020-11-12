@@ -2,7 +2,7 @@ const music = require("./music1");
 
 module.exports = {
     name: 'despausar',
-    aliases: ["despausar"],
+    aliases: ["despausar",'resume'],
     descripiton: "Despausa uma música caso esteja pausada.",
     serveOnly: true,
     usage: '&despusar',

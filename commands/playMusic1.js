@@ -12,6 +12,7 @@ module.exports = {
             let props = args.join('-');
             console.log('Pesquisa: ' + props);
             let player = music.getPlayer(message.guild.id);
+            message.channel.send("Revirando o Youtube. . .");
             await music.searchVideo(props, message, player, 1);
             if(player.ResearchResult.length === 0) return;
 
