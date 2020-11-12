@@ -1,5 +1,3 @@
-const google = require('googleapis').google
-const Youtube = google.youtube('v3');
 const ytdl = require('ytdl-core');
 const Discord = require("discord.js");
 const yts = require( 'yt-search' );
