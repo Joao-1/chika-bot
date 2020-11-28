@@ -1,4 +1,4 @@
-const music = require("./music1");
+const music = require("./music");
 
 module.exports = {
     name: 'despausar',

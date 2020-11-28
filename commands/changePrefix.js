@@ -7,6 +7,6 @@ module.exports = {
     usage: "&prefixo <novo prefixo>",
     execute(message, args, server){
         server.prefix = args;
-        message.channel.send("Prefixo mudado com sucesso!");
+        message.channel.send("Prefixo mudado para " + server.prefix);
     },
 };

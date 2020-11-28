@@ -1,5 +1,5 @@
 const Discord = require("discord.js");
-const music = require("./music1");
+const music = require("./music");
 
 module.exports = {
     name: 'terminar',

@@ -1,14 +1,14 @@
-const music = require("./music1");
+const music = require("./music");
 
 module.exports = {
-    name: 'pausar',
-    aliases: ["pause"],
-    descripiton: "Pausa a música que está tocando no momento.",
+    name: 'pular',
+    aliases: ["skip"],
+    descripiton: "Pula a música que está tocando no momento.",
     serveOnly: true,
-    usage: '&pausar',
+    usage: '&pular',
     execute(message){
         let player = music.getPlayer(message.guild.id);
         if(!player.playing) return message.channel.send("Não estou tocando nada");
-        player.pauseMusic(message);
+        player.skipMusic(message);
     },
 };

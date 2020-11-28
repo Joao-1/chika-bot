@@ -1,4 +1,4 @@
-const music = require("./music1");
+const music = require("./music");
 
 module.exports = {
     name: 'search',
@@ -12,7 +12,7 @@ module.exports = {
             let props = args.join('-');
             console.log('Pesquisa: ' + props);
             let player = music.getPlayer(message.guild.id);
-            await music.searchVideo(props, message, player, 5);
+            await music.searchVideo(props,message,player,5);
             if(player.ResearchResult.length === 0) return;
 
             music.searchCommand(player).then(Embed=>{
@@ -57,6 +57,7 @@ module.exports = {
             
             function play(){
                 if(player.queue.length === 1){
+                    message.channel.send(`Bora tocar \`\`${player.queue[0].Title} (${player.queue[0].Duration})\`\` - Som na Caixa`);
                     player.playMusic(message,player.queue);
                 }else if(player.queue.length === 0){
                     console.log("Busca cancelada");

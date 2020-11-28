@@ -9,12 +9,11 @@ module.exports = {
     execute(message, args){
         if(!args.length){
             const embedHelp = new Discord.MessageEmbed()
-            .setColor('#ff6f9c')
+            .setColor('#221297')
             .setTitle('Olá')
-            .setThumbnail("https://i.pinimg.com/originals/66/b7/66/66b766fb125df7664502ffc98a02fff5.jpg")
             .setDescription('Aqui está todos os meus comandos!')
             .addFields(
-                {name: 'Música', value:"tocar, procurar, limpar, terminar, entrar, lista, pausar, despausar, remover, pular"},
+                {name: 'Música', value:"tocar, procurar, limpar, terminar, entrar, lista, pausar, despausar, remover, pular, mover"},
                 {name: 'Para o servidor', value: "apagar"}
             )
             message.author.send(embedHelp).then(()=>{

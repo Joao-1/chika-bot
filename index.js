@@ -5,10 +5,6 @@ require('dotenv/config');
 const client = new Discord.Client(); 
 client.commands = new Discord.Collection();
 
-client.on('ready', () => {
-  console.log(`O bot está online - ${client.user.tag}!`);
-});
-
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js')); //filtra todos os arquivos .js da pasta commands
 
 for (const file of commandFiles) {
@@ -21,7 +17,7 @@ const cooldowns = new Discord.Collection();
 class Server{
   constructor(serverId){
     this.serverId = serverId;
-    this.prefix = "&";
+    this.prefix = "rk&";
   };
 };
 
@@ -94,5 +90,23 @@ client.on('message', message =>{
   };
 
 });
+
+client.on("ready",()=>{
+  let activities = [`with Yuuta`,`League of Legends`,`rk&help`],
+  i = 0;
+  setInterval(()=>client.user.setActivity(`${activities[i++ % activities.length]}`,
+  {
+    type: "PLAYING" //LISTENING, PLAYING, STREAMING
+  }), 1000 * 60 * 20);
+  client.user
+  .setStatus("online")
+  .catch(console.log);
+  console.log(`O bot está online - ${client.user.tag}!`);
+});
+
+// client.once('ready', () => {
+//   console.log('Bot foi iniciado, com ${message.guild.memberCount} usuários, em ${client.channels.cache.size} canais, em ${client.guilds.cache.size} servidores.'); 
+//   client.user.setActivity({name: 'comando', type: 'PLAYING'});
+// });
 
 client.login(process.env.DISCORD_TOKEN);

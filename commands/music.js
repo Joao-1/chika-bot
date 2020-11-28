@@ -1,6 +1,6 @@
 const ytdl = require('ytdl-core');
 const Discord = require("discord.js");
-const yts = require( 'yt-search' );
+const ytsr = require('ytsr');
 
 class Player{
     constructor() {
@@ -25,7 +25,6 @@ class Player{
         console.log("Colocando música para tocar");
         var voiceChannel = message.member.voice.channel;
         voiceChannel.join().then(connection =>{
-            message.channel.send(`Achei \`\`${queue[0].Title} (${queue[0].Duration})\`\` - Som na Caixa`);
             var stream =  ytdl(queue[0].URL, {filter: 'audioonly', highWaterMark: 1<<25});
             var dispatcher = connection.play(stream);
             this.playing = dispatcher;
@@ -91,7 +90,7 @@ class Player{
             if(isNaN(args)){
                 inQueue = this.result[0];
             }else{
-                if(args - 1 > grup){
+                if(args - 1 > this.grup){
                     inQueue = this.result[0];
                 }else{
                     inQueue = this.result[args - 1];
@@ -101,7 +100,7 @@ class Player{
         };
 
         const embed = new Discord.MessageEmbed()
-        .setColor(`#ff6f9c`)
+        .setColor(`#221297`)
         .setTitle("Lista de músicas na espera")
         .setURL('https://discord.js.org/')
         .addFields(
@@ -121,18 +120,24 @@ function getPlayer(server){
     return players[server];
 };
 
-async function searchVideo(args, message, player,max){
+async function searchVideo(args,message,player,max){
     console.log("Procurando vídeo...");
-    const search = await yts(args);
-    const result = search.videos.slice(0,max);
+    let result;
+    await ytsr.getFilters(args).then(async (filters1) => {
+        const filter1 = filters1.get('Type').find(o => o.name === 'Video');
+        const search = await ytsr(filter1.ref,{limit:max,safeSearch:true});
+        result = search.items.slice(0,max);
+      }).catch(err => {
+        console.error(err);
+      });
     if(result){
         for(let i = 0; i <= max - 1; i++){
             player.researchVideos(
-                result[i].url,
+                result[i].link,
                 result[i].title,
                 result[i].author.name,
                 result[i].thumbnail,
-                result[i].timestamp,
+                result[i].duration,
                 result[i].views,
                 message.author.tag,
             );
@@ -144,41 +149,6 @@ async function searchVideo(args, message, player,max){
     }; 
 
 
-};
-
-function createListMessage(message, queue){
-    console.log("Vídeo adicionada na lista");
-    const Embed = new Discord.MessageEmbed()
-    .setAuthor('Adicionado a fila', message.author.avatarURL())
-    .setColor(`#ff6f9c`)
-    .setTitle(queue[queue.length - 1].Title)
-    .setURL(queue[queue.length -1].URL)
-    .setThumbnail(queue[queue.length - 1].Thumbnail, {width: 120, height: 90})
-    .addFields(
-        {name: 'Canal', value: `${queue[queue.length - 1].Channel}`, inline: true},
-        {name: 'Duração', value: `${queue[queue.length - 1].Duration}`, inline: true},
-        {name: 'Visualizações', value: `${(queue[queue.length - 1].views).toLocaleString('pt-br')}`, inline: true},
-        {name: 'Posição na fila de espera', value: `${queue.length - 1}`}
-        )
-    message.channel.send(Embed);
-};
-
-async function searchCommand(player){
-    const Embed = new Discord.MessageEmbed()
-    .setColor(`#ff6f9c`)
-    .setTitle("Lista dos resultados:")
-    .setURL('https://discord.js.org/')
-    .setDescription('**Escolha o número correspondente a sua pesquisa**')
-    .setThumbnail('https://i.pinimg.com/736x/5e/9a/03/5e9a033287e21ebbfe5acd1dace7a519.jpg')
-    .addFields(
-        { name: `\u200B`, value: `\`${1}\` - [${player.ResearchResult[0].Title}](${player.ResearchResult[0].URL}) - (${player.ResearchResult[0].Duration})`},
-        { name: `\u200B`, value: `\`${2}\` - [${player.ResearchResult[1].Title}](${player.ResearchResult[1].URL}) - (${player.ResearchResult[1].Duration})`},
-        { name: `\u200B`, value: `\`${3}\` - [${player.ResearchResult[2].Title}](${player.ResearchResult[2].URL}) - (${player.ResearchResult[2].Duration})`},
-        { name: `\u200B`, value: `\`${4}\` - [${player.ResearchResult[3].Title}](${player.ResearchResult[3].URL}) - (${player.ResearchResult[3].Duration})`},
-        { name: `\u200B`, value: `\`${5}\` - [${player.ResearchResult[4].Title}](${player.ResearchResult[4].URL}) - (${player.ResearchResult[4].Duration})`},
-        )
-    .addField(`\u200B`, `Digite \`\`cancelar\`\` caso queira cancelar a pesquisa`);
-    return Embed;
 };
 
 function separateSongs(player, maximo){
@@ -197,11 +167,45 @@ function separateSongs(player, maximo){
         if(i % maximo === 0){
             player.grup++;
         };
-        i++;
         if(i === player.queue.length && player.result[player.grup] == undefined) player.numberOfPages--;
+        i++;
     };
 };
 
+function createListMessage(message, queue){
+    console.log("Vídeo adicionada na lista");
+    const Embed = new Discord.MessageEmbed()
+    .setAuthor('Adicionado a fila', message.author.avatarURL())
+    .setColor(`#221297`)
+    .setTitle(queue[queue.length - 1].Title)
+    .setURL(queue[queue.length -1].URL)
+    .setThumbnail(queue[queue.length - 1].Thumbnail, {width: 120, height: 90})
+    .addFields(
+        {name: 'Canal', value: `${queue[queue.length - 1].Channel}`, inline: true},
+        {name: 'Duração', value: `${queue[queue.length - 1].Duration}`, inline: true},
+        {name: 'Visualizações', value: `${(queue[queue.length - 1].views).toLocaleString('pt-br')}`, inline: true},
+        {name: 'Posição na fila de espera', value: `${queue.length - 1}`}
+        )
+    message.channel.send(Embed);
+};
+
+async function searchCommand(player){
+    const Embed = new Discord.MessageEmbed()
+    .setColor(`#221297`)
+    .setTitle("Lista dos resultados:")
+    .setURL('https://discord.js.org/')
+    .setDescription('**Escolha o número correspondente a sua pesquisa**')
+    .setThumbnail('https://i.pinimg.com/736x/5e/9a/03/5e9a033287e21ebbfe5acd1dace7a519.jpg')
+    .addFields(
+        { name: `\u200B`, value: `\`${1}\` - [${player.ResearchResult[0].Title}](${player.ResearchResult[0].URL}) - (${player.ResearchResult[0].Duration})`},
+        { name: `\u200B`, value: `\`${2}\` - [${player.ResearchResult[1].Title}](${player.ResearchResult[1].URL}) - (${player.ResearchResult[1].Duration})`},
+        { name: `\u200B`, value: `\`${3}\` - [${player.ResearchResult[2].Title}](${player.ResearchResult[2].URL}) - (${player.ResearchResult[2].Duration})`},
+        { name: `\u200B`, value: `\`${4}\` - [${player.ResearchResult[3].Title}](${player.ResearchResult[3].URL}) - (${player.ResearchResult[3].Duration})`},
+        { name: `\u200B`, value: `\`${5}\` - [${player.ResearchResult[4].Title}](${player.ResearchResult[4].URL}) - (${player.ResearchResult[4].Duration})`},
+        )
+    .addField(`\u200B`, `Digite \`\`cancelar\`\` caso queira cancelar a pesquisa`);
+    return Embed;
+};
 
 module.exports = {
     Player,

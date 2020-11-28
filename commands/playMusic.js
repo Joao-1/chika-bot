@@ -1,4 +1,4 @@
-const music = require("./music1");
+const music = require("./music");
 
 module.exports = {
     name: 'play',
@@ -13,12 +13,13 @@ module.exports = {
             console.log('Pesquisa: ' + props);
             let player = music.getPlayer(message.guild.id);
             message.channel.send("Revirando o Youtube. . .");
-            await music.searchVideo(props, message, player, 1);
+            await music.searchVideo(props,message,player,1);
             if(player.ResearchResult.length === 0) return;
 
             player.addQueue(player.ResearchResult[0]);
             player.ResearchResult.length = 0;
             if(player.queue.length === 1){
+                message.channel.send(`Achei \`\`${player.queue[0].Title} (${player.queue[0].Duration})\`\` - Som na Caixa`);
                 player.playMusic(message, player.queue);
             }else{
                 music.createListMessage(message, player.queue);
