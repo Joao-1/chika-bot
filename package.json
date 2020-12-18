@@ -1,5 +1,5 @@
 {
-  "name": "chika-bot",
+  "name": "rikka-bot",
   "version": "1.0.0",
   "description": "Bot com diversas funções para o Discord. ",
   "main": "index.js",
@@ -20,18 +20,20 @@
   "homepage": "https://github.com/Joao-1/chika-bot#readme",
   "dependencies": {
     "@discordjs/opus": "^0.3.2",
+    "discord-ytdl-core": "^5.0.0",
     "discord.js": "^12.5.1",
     "dotenv": "^8.2.0",
     "ffmpeg": "0.0.4",
     "ffmpeg-static": "^4.2.7",
     "git": "^0.1.5",
-    "googleapis": "^59.0.0",
+    "googleapis": "^66.0.0",
     "nodemon": "^2.0.6",
     "simple-youtube-api": "^5.2.1",
-    "yt-search": "^2.5.0",
-    "ytdl-core": "^3.4.2",
-    "ytdl-core-discord": "^1.2.1",
-    "ytpl": "git+https://github.com/dbrn/node-ytpl.git#patch-1",
-    "ytsr": "^2.0.0-alpha.3"
+    "youtube-search": "^1.1.4",
+    "ytdl-core": "^4.1.4"
+  },
+  "devDependencies": {
+    "eslint": "^7.15.0",
+    "eslint-config-google": "^0.14.0"
   }
 }
